@@ -18,10 +18,4 @@ public class SecurityLogin {
         }
 
     }
-    public static void main(String[] args) {
-
-        SecurityLogin a = new SecurityLogin();
-        a.login("AAAAAAAAgmail.com", "88888888", "SUCCESS");
-    }
-
 }
