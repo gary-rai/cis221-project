@@ -6,7 +6,7 @@ const loginError = document.getElementById("loginError");
 // Handle the login form
 if (loginForm && loginError) {
 
-loginForm.addEventListener("submit", function(event) {
+loginForm.addEventListener("submit", async function(event) {
 
 event.preventDefault();
 
@@ -23,8 +23,40 @@ return;
 
 }
 
-// Wait for the Java backend
-loginError.textContent = "Login service is not connected yet.";
+try {
+
+// Send login information to Java
+const response = await fetch("http://127.0.0.1:9090/api/login", {
+
+method: "POST",
+
+headers: {
+"Content-Type": "text/plain"
+},
+
+body: email + "\n" + password
+
+});
+
+// Read the response from Java
+const result = await response.text();
+
+if (response.ok && result === "Login Successful") {
+
+// Open the dashboard
+window.location.href = "dashboard.html";
+
+} else {
+
+loginError.textContent = "Incorrect email or password.";
+
+}
+
+} catch (error) {
+
+loginError.textContent = "Cannot connect to the login server.";
+
+}
 
 });
 
@@ -80,6 +112,19 @@ return;
 }
 
 uploadMessage.textContent = "Analysis service is not connected yet.";
+
+});
+
+}
+
+// Handle logout
+const logoutButton = document.getElementById("logoutButton");
+
+if (logoutButton) {
+
+logoutButton.addEventListener("click", function() {
+
+window.location.href = "login.html";
 
 });
 
