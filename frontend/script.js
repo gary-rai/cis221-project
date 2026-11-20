@@ -1,9 +1,10 @@
-// Get the login form and error message
+
+ // Get the login form and error message
 const loginForm = document.getElementById("loginForm");
 const loginError = document.getElementById("loginError");
 
-// Check if the login form exists
-if (loginForm) {
+// Handle the login form
+if (loginForm && loginError) {
 
 loginForm.addEventListener("submit", function(event) {
 
@@ -22,19 +23,20 @@ return;
 
 }
 
-// Wait for the Java backend to handle authentication
+// Wait for the Java backend
 loginError.textContent = "Login service is not connected yet.";
 
 });
 
 }
+
 // Get the dashboard elements
 const logFile = document.getElementById("logFile");
 const selectedFile = document.getElementById("selectedFile");
 const analyzeButton = document.getElementById("analyzeButton");
 const uploadMessage = document.getElementById("uploadMessage");
 
-// Check if the dashboard exists
+// Handle file selection and analysis
 if (logFile && selectedFile && analyzeButton && uploadMessage) {
 
 // Display the selected file name
@@ -51,6 +53,7 @@ return;
 
 const file = logFile.files[0];
 
+// Only allow TXT files
 if (!file.name.toLowerCase().endsWith(".txt")) {
 
 selectedFile.textContent = "No file selected";
@@ -79,5 +82,33 @@ return;
 uploadMessage.textContent = "Analysis service is not connected yet.";
 
 });
+
+}
+
+// Update the dashboard statistics
+function updateDashboard(results) {
+
+document.getElementById("totalLogins").textContent = results.totalLogins;
+document.getElementById("successfulLogins").textContent = results.successfulLogins;
+document.getElementById("failedLogins").textContent = results.failedLogins;
+
+// Update successful and failed login counts
+document.getElementById("successCount").textContent = results.successfulLogins;
+document.getElementById("failedCount").textContent = results.failedLogins;
+
+// Calculate percentages for the progress bars
+let successPercent = 0;
+let failedPercent = 0;
+
+if (results.totalLogins > 0) {
+
+successPercent = (results.successfulLogins / results.totalLogins) * 100;
+failedPercent = (results.failedLogins / results.totalLogins) * 100;
+
+}
+
+// Update the progress bars
+document.getElementById("successBar").style.width = successPercent + "%";
+document.getElementById("failedBar").style.width = failedPercent + "%";
 
 }

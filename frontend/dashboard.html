@@ -14,7 +14,6 @@
 <!-- This is the main dashboard -->
 <div class="dashboard-layout">
 
-
 <!-- This controls the sidebar -->
 <aside class="sidebar">
 
@@ -28,10 +27,7 @@
 <a href="dashboard.html" class="nav-link active">Dashboard</a>
 <a href="#upload-section" class="nav-link">Analyze Logs</a>
 <a href="#activity-section" class="nav-link">Login Activity</a>
-<a href="#alerts-section" class="nav-link">Security Alerts</a>
-<a href="#report-section" class="nav-link">Reports</a>
 </nav>
-
 
 <!-- This displays the logout button -->
 <div class="sidebar-bottom">
@@ -40,10 +36,8 @@
 
 </aside>
 
-
 <!-- This displays the dashboard content -->
 <main class="dashboard-main">
-
 
 <!-- This is the top of the dashboard -->
 <header class="dashboard-header">
@@ -60,7 +54,6 @@ Ready to Analyze
 </div>
 
 </header>
-
 
 <!-- This displays the login statistics -->
 <section class="stats-grid">
@@ -83,14 +76,7 @@ Ready to Analyze
 <span>Unsuccessful attempts</span>
 </div>
 
-<div class="stat-card">
-<p>Security Alerts</p>
-<h2 id="securityAlerts">0</h2>
-<span>Suspicious activity detected</span>
-</div>
-
 </section>
-
 
 <!-- This is where users upload security logs -->
 <section class="dashboard-card" id="upload-section">
@@ -98,7 +84,7 @@ Ready to Analyze
 <div class="section-heading">
 <div>
 <h2>Analyze Security Logs</h2>
-<p>Upload a security log file to check for suspicious login activity.</p>
+<p>Upload a security log file to review login activity.</p>
 </div>
 </div>
 
@@ -120,7 +106,6 @@ Ready to Analyze
 
 </section>
 
-
 <!-- This displays login activity -->
 <section class="dashboard-card" id="activity-section">
 
@@ -138,6 +123,7 @@ Ready to Analyze
 <span>Successful Logins</span>
 <strong id="successCount">0</strong>
 </div>
+
 <div class="progress-track">
 <div id="successBar" class="progress-fill success-fill"></div>
 </div>
@@ -148,6 +134,7 @@ Ready to Analyze
 <span>Failed Logins</span>
 <strong id="failedCount">0</strong>
 </div>
+
 <div class="progress-track">
 <div id="failedBar" class="progress-fill failed-fill"></div>
 </div>
@@ -157,44 +144,6 @@ Ready to Analyze
 
 </section>
 
-
-<!-- This displays security alerts -->
-<section class="dashboard-card" id="alerts-section">
-
-<div class="section-heading">
-<div>
-<h2>Security Alerts</h2>
-<p>Warnings found during log analysis.</p>
-</div>
-</div>
-
-<div id="alertsContainer" class="empty-state">
-<p>No security alerts to display.</p>
-<p>Upload a log file to begin analyzing activity.</p>
-</div>
-
-</section>
-
-
-<!-- This displays the security report -->
-<section class="dashboard-card" id="report-section">
-
-<div class="section-heading">
-<div>
-<h2>Security Report</h2>
-<p>Review the results of your latest log analysis.</p>
-</div>
-
-<button id="downloadReport" class="secondary-button" disabled>Download Report</button>
-</div>
-
-<div id="reportContent" class="report-content">
-<p>No report generated yet.</p>
-</div>
-
-</section>
-
-
 <!-- This displays the footer -->
 <footer class="dashboard-footer">
 <p>LogWatch Security Log Analysis Platform</p>
@@ -203,7 +152,6 @@ Ready to Analyze
 </main>
 
 </div>
-
 
 <!-- This connects the JavaScript file -->
 <script src="script.js"></script>
