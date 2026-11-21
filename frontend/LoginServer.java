@@ -169,7 +169,13 @@ return;
 
 }
 
-File file = new File("frontend" + path);
+File file;
+
+if (path.startsWith("/images/")) {
+file = new File("." + path);
+} else {
+file = new File("frontend" + path);
+}
 
 if (!file.exists()) {
 
