@@ -43,11 +43,35 @@ return;
 String email = loginInfo.substring(0, separator).trim();
 String password = loginInfo.substring(separator + 1);
 
-// Check credentials
+// Check login credentials
 LoginManager manager = new LoginManager();
 
 boolean success = manager.login(email, password);
 
+// Get the IP address of the person logging in
+String ip = exchange.getRemoteAddress()
+                    .getAddress()
+                    .getHostAddress();
+
+// Determine the login status
+String status;
+
+if (success) {
+
+status = "SUCCESS";
+
+} else {
+
+status = "FAILED";
+
+}
+
+// Automatically record the login attempt
+SecurityLogin securityLogin = new SecurityLogin();
+
+securityLogin.login(email, ip, status);
+
+// Send the login result
 String response = "Login Failed";
 
 if (success) {
@@ -76,7 +100,50 @@ exchange.close();
 
 });
 
-// Serve the website files
+// Handle uploaded log analysis
+server.createContext("/api/analyze", exchange -> {
+
+try {
+
+if (!exchange.getRequestMethod().equals("POST")) {
+
+exchange.sendResponseHeaders(405, -1);
+return;
+
+}
+
+// Read uploaded log text
+InputStream input = exchange.getRequestBody();
+
+String logText = new String(input.readAllBytes(), StandardCharsets.UTF_8);
+
+// Analyze login records
+LogAnalyzer analyzer = new LogAnalyzer();
+
+String results = analyzer.analyze(logText);
+
+// Send analysis results to dashboard
+byte[] data = results.getBytes(StandardCharsets.UTF_8);
+
+exchange.getResponseHeaders().set("Content-Type", "application/json; charset=UTF-8");
+
+exchange.sendResponseHeaders(200, data.length);
+
+exchange.getResponseBody().write(data);
+
+} catch (Exception e) {
+
+e.printStackTrace();
+
+} finally {
+
+exchange.close();
+
+}
+
+});
+
+// Serve website files
 server.createContext("/", exchange -> {
 
 try {
@@ -89,7 +156,7 @@ path = "/login.html";
 
 }
 
-// Only allow known website files
+// Only allow website files
 if (!path.equals("/login.html") &&
 !path.equals("/dashboard.html") &&
 !path.equals("/style.css") &&
@@ -111,6 +178,7 @@ return;
 
 }
 
+// Set the file type
 String contentType = "text/plain";
 
 if (path.endsWith(".html")) {
@@ -131,6 +199,7 @@ contentType = "image/png";
 
 }
 
+// Send file to browser
 byte[] data = Files.readAllBytes(file.toPath());
 
 exchange.getResponseHeaders().set("Content-Type", contentType);

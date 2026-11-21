@@ -27,6 +27,7 @@
 <a href="dashboard.html" class="nav-link active">Dashboard</a>
 <a href="#upload-section" class="nav-link">Analyze Logs</a>
 <a href="#activity-section" class="nav-link">Login Activity</a>
+<a href="#records-section" class="nav-link">Login Records</a>
 </nav>
 
 <!-- This displays the logout button -->
@@ -139,6 +140,45 @@ Ready to Analyze
 <div id="failedBar" class="progress-fill failed-fill"></div>
 </div>
 </div>
+
+</div>
+
+</section>
+
+<!-- This displays individual login records -->
+<section class="dashboard-card" id="records-section">
+
+<div class="section-heading">
+<div>
+<h2>Login Records</h2>
+<p>View individual successful and failed login attempts.</p>
+</div>
+</div>
+
+<div class="records-table-container">
+
+<table class="records-table">
+
+<thead>
+<tr>
+<th>Timestamp</th>
+<th>Email Address</th>
+<th>IP Address</th>
+<th>Login Status</th>
+</tr>
+</thead>
+
+<tbody id="loginRecords">
+
+<tr>
+<td colspan="4" class="empty-records">
+Upload and analyze a log file to view login records.
+</td>
+</tr>
+
+</tbody>
+
+</table>
 
 </div>
 
