@@ -1,107 +1,58 @@
-
 package frontend;
 
+import java.io.File;
 import java.util.Scanner;
 
 public class LogAnalyzer {
 
-public String analyze(String logText) {
+public void analyze() {
 
-int totalLogins = 0;
 int successfulLogins = 0;
 int failedLogins = 0;
 
-// Store the individual login records
-StringBuilder records = new StringBuilder();
+try {
 
-Scanner scanner = new Scanner(logText);
+File file = new File("SecurityReport.txt");
+Scanner scanner = new Scanner(file);
 
 while (scanner.hasNextLine()) {
 
-String line = scanner.nextLine().trim();
+String line = scanner.nextLine();
 
-// Skip empty lines
-if (line.isEmpty()) {
-continue;
-}
+String[] details = line.split("\\|");
 
-// Find the separators between the log information
-int firstSeparator = line.indexOf("|");
-int secondSeparator = line.indexOf("|", firstSeparator + 1);
-int thirdSeparator = line.indexOf("|", secondSeparator + 1);
+if (details.length == 4) {
 
-// Skip lines that do not have all four fields
-if (firstSeparator == -1 ||
-secondSeparator == -1 ||
-thirdSeparator == -1) {
+String status = details[3].trim();
 
-continue;
-
-}
-
-// Separate the login information
-String timestamp = line.substring(0, firstSeparator).trim();
-
-String email = line.substring(firstSeparator + 1, secondSeparator).trim();
-
-String ip = line.substring(secondSeparator + 1, thirdSeparator).trim();
-
-String status = line.substring(thirdSeparator + 1).trim();
-
-// Count successful and failed logins
 if (status.equals("SUCCESS")) {
 
 successfulLogins++;
-totalLogins++;
 
 } else if (status.equals("FAILED")) {
 
 failedLogins++;
-totalLogins++;
-
-} else {
-
-continue;
 
 }
 
-// Add the login information to the records
-if (records.length() > 0) {
-
-records.append(",");
-
 }
-
-records.append("{")
-.append("\"timestamp\":\"").append(jsonSafe(timestamp)).append("\",")
-.append("\"email\":\"").append(jsonSafe(email)).append("\",")
-.append("\"ip\":\"").append(jsonSafe(ip)).append("\",")
-.append("\"status\":\"").append(jsonSafe(status)).append("\"")
-.append("}");
 
 }
 
 scanner.close();
 
-// Create the final JSON response
-String results = "{"
-+ "\"totalLogins\":" + totalLogins + ","
-+ "\"successfulLogins\":" + successfulLogins + ","
-+ "\"failedLogins\":" + failedLogins + ","
-+ "\"records\":[" + records + "]"
-+ "}";
+int totalLogins = successfulLogins + failedLogins;
 
-return results;
+System.out.println("\n===== Security Report =====");
+System.out.println("Total Login Attempts: " + totalLogins);
+System.out.println("Successful Logins: " + successfulLogins);
+System.out.println("Failed Logins: " + failedLogins);
+
+} catch (Exception e) {
+
+System.out.println("Error reading SecurityReport.txt");
 
 }
-
-// Prepare text so it can safely be included in JSON
-public String jsonSafe(String text) {
-
-return text.replace("\\", "\\\\")
-.replace("\"", "\\\"")
-.replace("\n", "\\n")
-.replace("\r", "\\r");
 
 }
 
