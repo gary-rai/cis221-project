@@ -1,68 +1,3 @@
-
-// Get the login form and error message
-const loginForm = document.getElementById("loginForm");
-const loginError = document.getElementById("loginError");
-
-// Handle the login form
-if (loginForm && loginError) {
-
-loginForm.addEventListener("submit", async function(event) {
-
-event.preventDefault();
-
-const email = document.getElementById("email").value.trim();
-const password = document.getElementById("password").value;
-
-loginError.textContent = "";
-
-// Check if the fields are empty
-if (email === "" || password === "") {
-
-loginError.textContent = "Please enter your email and password.";
-return;
-
-}
-
-try {
-
-// Send login information to Java
-const response = await fetch("/api/login", {
-
-method: "POST",
-
-headers: {
-"Content-Type": "text/plain"
-},
-
-body: email + "\n" + password
-
-});
-
-// Read the response from Java
-const result = await response.text();
-
-if (response.ok && result === "Login Successful") {
-
-// Open the dashboard
-window.location.href = "dashboard.html";
-
-} else {
-
-loginError.textContent = "Incorrect email or password.";
-
-}
-
-} catch (error) {
-
-loginError.textContent = "Cannot connect to the login server.";
-
-}
-
-});
-
-}
-
-
 // Get the dashboard elements
 const logFile = document.getElementById("logFile");
 const selectedFile = document.getElementById("selectedFile");
@@ -154,20 +89,6 @@ analyzeButton.addEventListener("click", async function() {
     uploadMessage.textContent = "Analysis completed!";
 });
 }
-
-// Handle logout
-const logoutButton = document.getElementById("logoutButton");
-
-if (logoutButton) {
-
-logoutButton.addEventListener("click", function() {
-
-window.location.href = "login.html";
-
-});
-
-}
-
 
 // Update dashboard statistics and individual login records
 function updateDashboard(results) {
