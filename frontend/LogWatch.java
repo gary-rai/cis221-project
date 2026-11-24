@@ -53,7 +53,7 @@ int choice = 0;
 
 while (choice != 2) {
 
-System.out.println("\n===== LogWatch Menu =====");
+System.out.println("===== LogWatch Menu =====\n");
 System.out.println("1. Analyze Security Logs");
 System.out.println("2. Logout");
 
