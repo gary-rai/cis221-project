@@ -7,53 +7,50 @@ public class LogAnalyzer {
 
 public void analyze() {
 
-int successfulLogins = 0;
-int failedLogins = 0;
+        int successfulLogins = 0;
+        int failedLogins = 0;
 
-try {
+        try {
 
-File file = new File("SecurityReport.txt");
-Scanner scanner = new Scanner(file);
+            File file = new File("SecurityReport.txt");
+            Scanner scanner = new Scanner(file);
 
-while (scanner.hasNextLine()) {
+            System.out.println("\n========== FULL SECURITY REPORT ==========\n");
 
-String line = scanner.nextLine();
+            // Display the entire text file
+            while (scanner.hasNextLine()) {
 
-String[] details = line.split("\\|");
+                String line = scanner.nextLine();
 
-if (details.length == 4) {
+                System.out.println(line);
 
-String status = details[3].trim();
+                // Count successful and failed attempts
+                if (line.contains("SUCCESS")) {
+                    successfulLogins++;
+                }
+                else if (line.contains("FAILED")) {
+                    failedLogins++;
+                }
+            }
 
-if (status.equals("SUCCESS")) {
+            scanner.close();
 
-successfulLogins++;
+            // Calculate total attempts
+            int totalLogins = successfulLogins + failedLogins;
 
-} else if (status.equals("FAILED")) {
+            // Display summary separately
+            System.out.println("========== LOGIN SUMMARY ==========\n");
+            System.out.println("Successful Attempts: " + successfulLogins);
+            System.out.println("Failed Attempts: " + failedLogins);
+            System.out.println("Total Login Attempts: " + totalLogins);
 
-failedLogins++;
+            System.out.println("===================================");
 
-}
+        } 
+        catch (Exception e) {
 
-}
+            System.out.println("Error reading SecurityReport.txt");
 
-}
-
-scanner.close();
-
-int totalLogins = successfulLogins + failedLogins;
-
-System.out.println("\n===== Security Report =====");
-System.out.println("Total Login Attempts: " + totalLogins);
-System.out.println("Successful Logins: " + successfulLogins);
-System.out.println("Failed Logins: " + failedLogins);
-
-} catch (Exception e) {
-
-System.out.println("Error reading SecurityReport.txt");
-
-}
-
-}
-
+        }
+    }
 }

@@ -1,14 +1,35 @@
 package frontend;
 
+import java.net.InetAddress;
+
 import java.util.Scanner;
 
 public class LogWatch {
 
 public static void main(String[] args) {
 
+   String ipaddress = "UNKNOWN";
+
+try {
+    Process p = new ProcessBuilder("ipconfig", "getifaddr", "en0").start();
+    Scanner s = new Scanner(p.getInputStream());
+
+    if (s.hasNextLine()) {
+        ipaddress = s.nextLine();
+    }
+
+    s.close();
+
+} catch (Exception e) {
+    System.out.println("Could not get IP");
+}
+
+
 Scanner scanner = new Scanner(System.in);
 
 System.out.println("===== Welcome to LogWatch =====");
+
+
 
 System.out.print("Enter email: ");
 String email = scanner.nextLine();
@@ -26,7 +47,7 @@ if (success) {
 
 System.out.println("Login Successful");
 
-securityLogin.login(email, "127.0.0.1", "SUCCESS");
+securityLogin.login(email, ipaddress, "SUCCESS");
 
 int choice = 0;
 
@@ -60,7 +81,7 @@ System.out.println("Invalid choice");
 
 System.out.println("Login Failed. Access Denied.");
 
-securityLogin.login(email, "127.0.0.1", "FAILED");
+securityLogin.login(email, ipaddress, "FAILED");
 
 }
 
@@ -68,3 +89,5 @@ scanner.close();
 
 }
 }
+
+
