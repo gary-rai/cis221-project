@@ -8,17 +8,23 @@ public class LogWatch {
 
 public static void main(String[] args) {
 
-   String ipaddress = "UNKNOWN";
+ String ipaddress = "UNKNOWN";
 
 try {
-    Process p = new ProcessBuilder("ipconfig", "getifaddr", "en0").start();
-    Scanner s = new Scanner(p.getInputStream());
+    for (java.net.NetworkInterface n : java.util.Collections.list(
+            java.net.NetworkInterface.getNetworkInterfaces())) {
 
-    if (s.hasNextLine()) {
-        ipaddress = s.nextLine();
+        for (java.net.InetAddress a : java.util.Collections.list(n.getInetAddresses())) {
+
+            if (a instanceof java.net.Inet4Address && !a.isLoopbackAddress()) {
+                ipaddress = a.getHostAddress();
+                break;
+            }
+        }
+
+        if (!ipaddress.equals("UNKNOWN")) 
+            break;
     }
-
-    s.close();
 
 } catch (Exception e) {
     System.out.println("Could not get IP");
