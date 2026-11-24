@@ -1,6 +1,10 @@
 package frontend;
 
+import java.net.NetworkInterface;
 import java.net.InetAddress;
+import java.net.Inet4Address;
+import java.util.Collections;
+
 
 import java.util.Scanner;
 
@@ -11,18 +15,18 @@ public static void main(String[] args) {
  String ipaddress = "UNKNOWN";
 
 try {
-    for (java.net.NetworkInterface n : java.util.Collections.list(
-            java.net.NetworkInterface.getNetworkInterfaces())) {
+    for (NetworkInterface n : Collections.list(
+            NetworkInterface.getNetworkInterfaces())) {
 
-        for (java.net.InetAddress a : java.util.Collections.list(n.getInetAddresses())) {
+        for (InetAddress a : Collections.list(n.getInetAddresses())) {
 
-            if (a instanceof java.net.Inet4Address && !a.isLoopbackAddress()) {
+            if (a instanceof Inet4Address && !a.isLoopbackAddress()) {
                 ipaddress = a.getHostAddress();
                 break;
             }
         }
 
-        if (!ipaddress.equals("UNKNOWN")) 
+        if (!ipaddress.equals("UNKNOWN"))
             break;
     }
 
@@ -59,7 +63,7 @@ int choice = 0;
 
 while (choice != 2) {
 
-System.out.println("===== LogWatch Menu =====\n");
+System.out.println("\n===== LogWatch Menu =====");
 System.out.println("1. Analyze Security Logs");
 System.out.println("2. Logout");
 
